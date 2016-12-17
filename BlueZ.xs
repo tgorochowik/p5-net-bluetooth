@@ -399,10 +399,11 @@ _socket(proto)
 
 
 int
-_connect(fd, addr, port, proto)
+_connect(fd, addr, port, cid, proto)
 	int fd
 	char *addr
 	int port
+	int cid
 	char *proto
 	CODE:
 	//char local_host [] = "FF:FF:FF:00:00:00";
@@ -425,6 +426,7 @@ _connect(fd, addr, port, proto)
 		struct sockaddr_l2 l2addr = { 0 };
 		l2addr.l2_family = AF_BLUETOOTH;
 		l2addr.l2_psm = htobs(port);
+		l2addr.l2_cid = htobs(cid);
 
 		str2ba(addr, &l2addr.l2_bdaddr);
 		/*if(strcasecmp(addr, "localhost") ==  0 || strcasecmp(addr, "local") == 0)  {
@@ -450,9 +452,10 @@ _connect(fd, addr, port, proto)
 
 
 int
-_bind(fd, port, proto)
+_bind(fd, port, cid, proto)
 	int fd
 	int port
+	int cid
 	char *proto
 	CODE:
 
@@ -472,6 +475,7 @@ _bind(fd, port, proto)
 		l2addr.l2_family = AF_BLUETOOTH;
 		l2addr.l2_psm = htobs(port);
 		l2addr.l2_bdaddr = *BDADDR_ANY;
+		l2addr.l2_cid = htobs(cid);
 
 		RETVAL = bind(fd, (struct sockaddr *)&l2addr, sizeof(l2addr));
 	}

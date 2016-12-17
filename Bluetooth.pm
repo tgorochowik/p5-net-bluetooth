@@ -50,8 +50,9 @@ sub connect {
 my $self = shift;
 my $addr = shift;
 my $port = shift;
+my $cid = shift;
 
-	return -1 if(_connect($self->{SOCK_FD}, $addr, $port, $self->{PROTO}) < 0);
+	return -1 if(_connect($self->{SOCK_FD}, $addr, $port, $cid, $self->{PROTO}) < 0);
 
 	$self->{ADDR} = $addr;
 	$self->{PORT} = $port;
@@ -71,8 +72,11 @@ my $self = shift;
 sub bind {
 my $self = shift;
 my $port = shift;
+my $cid = shift;
 
-	return -1 if(_bind($self->{SOCK_FD}, $port, $self->{PROTO}) < 0);
+	$cid = 0 unless $cid;
+
+	return -1 if(_bind($self->{SOCK_FD}, $port, $cid, $self->{PROTO}) < 0);
 	$self->{PORT} = $port;
 
 	return 0;
