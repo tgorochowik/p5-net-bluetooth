@@ -427,6 +427,7 @@ _connect(fd, addr, port, cid, proto)
 		l2addr.l2_family = AF_BLUETOOTH;
 		l2addr.l2_psm = htobs(port);
 		l2addr.l2_cid = htobs(cid);
+		l2addr.l2_bdaddr_type = BDADDR_LE_PUBLIC;
 
 		str2ba(addr, &l2addr.l2_bdaddr);
 		/*if(strcasecmp(addr, "localhost") ==  0 || strcasecmp(addr, "local") == 0)  {
